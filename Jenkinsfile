@@ -30,13 +30,15 @@ spec:
   }
   stages {
     stage('Clone repository') {
+      steps {
         /* Let's make sure we have the repository cloned to our workspace */
         checkout scm
-    }  
-    stage('Build image with Kaniko') {
-        /* This builds and push the actual image; synonymous to * docker build and docker push on the command line */
-        
+      }  
+    }
+    
+    stage('Build image with Kaniko') {    
       steps {
+        /* This builds and push the actual image; synonymous to * docker build and docker push on the command line */
         container(name: 'kaniko', shell: '/busybox/sh') {
           sh '''#!/busybox/sh
             /kaniko/executor --context `pwd` --destination victorbecerra/hello-node:latest
@@ -46,5 +48,4 @@ spec:
     }
   }
 }
-
 
